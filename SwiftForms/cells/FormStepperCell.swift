@@ -31,7 +31,7 @@ public class FormStepperCell: FormTitleCell {
         
         contentView.addConstraint(NSLayoutConstraint(item: stepperView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
         
-        stepperView.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+        stepperView.addTarget(self, action: #selector(valueChanged(_:)), forControlEvents: .ValueChanged)
     }
     
     public override func update() {

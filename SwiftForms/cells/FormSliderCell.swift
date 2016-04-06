@@ -27,7 +27,7 @@ public class FormSliderCell: FormTitleCell {
         
         contentView.addConstraint(NSLayoutConstraint(item: sliderView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
         
-        sliderView.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+        sliderView.addTarget(self, action: #selector(valueChanged(_:)), forControlEvents: .ValueChanged)
     }
     
     public override func update() {
