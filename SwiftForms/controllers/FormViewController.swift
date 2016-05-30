@@ -20,17 +20,7 @@ public class FormViewController : UITableViewController {
     /// MARK: Properties
     
     public var form = FormDescriptor()
-    
-    /// MARK: Init
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
 
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
     /// MARK: View life cycle
 
     public override func viewDidLoad() {
