@@ -9,31 +9,31 @@
 import UIKit
 
 public enum FormRowType {
-    case Unknown
-    case Text
-    case URL
-    case Number
-    case NumbersAndPunctuation
-    case Decimal
-    case Name
-    case Phone
-    case NamePhone
-    case Email
-    case Twitter
-    case ASCIICapable
-    case Password
-    case Button
-    case BooleanSwitch
-    case BooleanCheck
-    case SegmentedControl
-    case Picker
-    case Date
-    case Time
-    case DateAndTime
-    case Stepper
-    case Slider
-    case MultipleSelector
-    case MultilineText
+    case unknown
+    case text
+    case url
+    case number
+    case numbersAndPunctuation
+    case decimal
+    case name
+    case phone
+    case namePhone
+    case email
+    case twitter
+    case asciiCapable
+    case password
+    case button
+    case booleanSwitch
+    case booleanCheck
+    case segmentedControl
+    case picker
+    case date
+    case time
+    case dateAndTime
+    case stepper
+    case slider
+    case multipleSelector
+    case multilineText
 }
 
 public typealias DidSelectClosure = (Void) -> Void
@@ -41,15 +41,15 @@ public typealias UpdateClosure = (FormRowDescriptor) -> Void
 public typealias TitleFormatterClosure = (NSObject) -> String
 public typealias VisualConstraintsClosure = (FormBaseCell) -> [String]
 
-public class FormRowDescriptor: NSObject {
+open class FormRowDescriptor: NSObject {
 
     /// MARK: Properties
     
-    public var title: String
-    public var rowType: FormRowType
-    public var tag: String
+    open var title: String
+    open var rowType: FormRowType
+    open var tag: String
     
-    public var value: NSObject? {
+    open var value: NSObject? {
         willSet {
             if let willUpdateBlock = self.configuration.willUpdateClosure {
                 willUpdateBlock(self)
@@ -62,11 +62,11 @@ public class FormRowDescriptor: NSObject {
         }
     }
     
-    public var configuration = RowConfiguration()
+    open var configuration = RowConfiguration()
     
     /// MARK: Init
 
-    public init(tag: String, rowType: FormRowType = .Unknown, title: String = "", value: NSObject? = .None, placeholder: String? = .None, options: [NSObject]? = .None) {
+    public init(tag: String, rowType: FormRowType = .unknown, title: String = "", value: NSObject? = .none, placeholder: String? = .none, options: [NSObject]? = .none) {
         configuration.required = true
         configuration.allowsMultipleSelection = false
         configuration.showsInputToolbar = false
@@ -81,14 +81,14 @@ public class FormRowDescriptor: NSObject {
     
     /// MARK: Public interface
     
-    public func titleForOptionAtIndex(index: Int) -> String {
+    open func titleForOptionAtIndex(_ index: Int) -> String {
         if let options = configuration.options {
             return titleForOptionValue(options[index])
         }
         return ""
     }
     
-    public func titleForOptionValue(optionValue: NSObject) -> String {
+    open func titleForOptionValue(_ optionValue: NSObject) -> String {
         if let titleFormatter = configuration.titleFormatterClosure {
             return titleFormatter(optionValue)
         }
@@ -131,5 +131,5 @@ public struct RowConfiguration {
     
     public var showsInputToolbar: Bool?
     
-    public var dateFormatter: NSDateFormatter?
+    public var dateFormatter: DateFormatter?
 }

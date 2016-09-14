@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class FormSelectorCell: FormValueCell {
+open class FormSelectorCell: FormValueCell {
     
     /// MARK: FormBaseCell
     
-    public override func update() {
+    open override func update() {
         super.update()
         
         titleLabel.text = rowDescriptor.title
@@ -29,15 +29,15 @@ public class FormSelectorCell: FormValueCell {
         
         if !title.isEmpty {
             valueLabel.text = title
-            valueLabel.textColor = UIColor.blackColor()
+            valueLabel.textColor = UIColor.black
         }
         else {
             valueLabel.text = rowDescriptor.configuration.placeholder
-            valueLabel.textColor = UIColor.lightGrayColor()
+            valueLabel.textColor = UIColor.lightGray
         }
     }
     
-    public override class func formViewController(formViewController: FormViewController, didSelectRow selectedRow: FormBaseCell) {
+    open override class func formViewController(_ formViewController: FormViewController, didSelectRow selectedRow: FormBaseCell) {
         if let row = selectedRow as? FormSelectorCell {
             
             formViewController.view.endEditing(true)

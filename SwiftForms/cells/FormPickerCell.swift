@@ -8,17 +8,17 @@
 
 import UIKit
 
-public class FormPickerCell: FormValueCell, UIPickerViewDelegate, UIPickerViewDataSource {
+open class FormPickerCell: FormValueCell, UIPickerViewDelegate, UIPickerViewDataSource {
     
     /// MARK: Properties
     
-    private let picker = UIPickerView()
-    private let hiddenTextField = UITextField(frame: CGRectZero)
+    fileprivate let picker = UIPickerView()
+    fileprivate let hiddenTextField = UITextField(frame: CGRect.zero)
     
     public required init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        accessoryType = .None
+        accessoryType = .none
         
         picker.delegate = self
         picker.dataSource = self
@@ -27,7 +27,7 @@ public class FormPickerCell: FormValueCell, UIPickerViewDelegate, UIPickerViewDa
         contentView.addSubview(hiddenTextField)
     }
     
-    public override func update() {
+    open override func update() {
         super.update()
         
         titleLabel.text = rowDescriptor.title
@@ -35,13 +35,13 @@ public class FormPickerCell: FormValueCell, UIPickerViewDelegate, UIPickerViewDa
         if let value = rowDescriptor.value {
             valueLabel.text = rowDescriptor.titleForOptionValue(value)
             if let options = rowDescriptor.configuration.options,
-               let index = options.indexOf(value) {
+               let index = options.index(of: value) {
                 picker.selectRow(index, inComponent: 0, animated: false)
             }
         }
     }
 
-    public override class func formViewController(formViewController: FormViewController, didSelectRow selectedRow: FormBaseCell) {
+    open override class func formViewController(_ formViewController: FormViewController, didSelectRow selectedRow: FormBaseCell) {
         if let row = selectedRow as? FormPickerCell {
             if let optionValue = selectedRow.rowDescriptor.value {
                 row.valueLabel.text = selectedRow.rowDescriptor.titleForOptionValue(optionValue)
@@ -55,11 +55,11 @@ public class FormPickerCell: FormValueCell, UIPickerViewDelegate, UIPickerViewDa
 
     /// MARK: UIPickerViewDelegate
     
-    public func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    open func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return rowDescriptor.titleForOptionAtIndex(row)
     }
     
-    public func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    open func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let optionValue = rowDescriptor.configuration.options?[row] {
             rowDescriptor.value = optionValue
             valueLabel.text = rowDescriptor.titleForOptionValue(optionValue)
@@ -68,11 +68,11 @@ public class FormPickerCell: FormValueCell, UIPickerViewDelegate, UIPickerViewDa
     
     /// MARK: UIPickerViewDataSource
     
-    public func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    open func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    public func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    open func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return rowDescriptor.configuration.options?.count ?? 0
     }
     

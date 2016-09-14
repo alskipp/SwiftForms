@@ -8,28 +8,28 @@
 
 import Foundation
 
-public class FormDescriptor: NSObject {
+open class FormDescriptor: NSObject {
 
-    public var title = ""
-    public var sections: [FormSectionDescriptor] = []
+    open var title = ""
+    open var sections: [FormSectionDescriptor] = []
     
-    public func addSection(section: FormSectionDescriptor) {
+    open func addSection(_ section: FormSectionDescriptor) {
         sections.append(section)
     }
     
-    public func removeSection(section: FormSectionDescriptor) {
-        if let index = sections.indexOf(section) {
-            sections.removeAtIndex(index)
+    open func removeSection(_ section: FormSectionDescriptor) {
+        if let index = sections.index(of: section) {
+            sections.remove(at: index)
         }
     }
     
-    public func formValues() -> Dictionary<String, AnyObject> {
+    open func formValues() -> Dictionary<String, AnyObject> {
 
         var formValues: [String: AnyObject] = [:]
 
         for section in sections {
             for row in section.rows {
-                if let val = row.value where row.rowType != .Button {
+                if let val = row.value, row.rowType != .button {
                     formValues[row.tag] = val
                 }
             }
@@ -37,7 +37,7 @@ public class FormDescriptor: NSObject {
         return formValues
     }
     
-    public func validateForm() -> FormRowDescriptor! {
+    open func validateForm() -> FormRowDescriptor! {
         for section in sections {
             for row in section.rows {
                 if let required = row.configuration.required {

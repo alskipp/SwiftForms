@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class FormTitleCell: FormBaseCell {
+open class FormTitleCell: FormBaseCell {
 
     /// MARK: Cell views
     
-    public let titleLabel = UILabel()
+    open let titleLabel = UILabel()
     
     public required init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -21,19 +21,19 @@ public class FormTitleCell: FormBaseCell {
         
         titleLabel.font = (self as? FormFontDefaults).map {
             $0.titleLabelFont
-        } ?? UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        } ?? UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         
         // apply constant constraints
         contentView.addSubview(titleLabel)
-        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: contentView, attribute: .Height, multiplier: 1.0, constant: 0.0))
-        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: contentView, attribute: .height, multiplier: 1.0, constant: 0.0))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0))
     }
     
-    public override func constraintsViews() -> [String : UIView] {
+    open override func constraintsViews() -> [String : UIView] {
         return ["titleLabel" : titleLabel]
     }
     
-    public override func defaultVisualConstraints() -> [String] {
+    open override func defaultVisualConstraints() -> [String] {
         return ["H:|-16-[titleLabel]-16-|"]
     }
     

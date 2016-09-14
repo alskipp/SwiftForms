@@ -8,29 +8,29 @@
 
 import UIKit
 
-public class FormCheckCell: FormTitleCell {
+open class FormCheckCell: FormTitleCell {
 
     /// MARK: FormBaseCell
     
-    public override func configure() {
+    open override func configure() {
         super.configure()
-        selectionStyle = .Default
-        accessoryType = .None
+        selectionStyle = .default
+        accessoryType = .none
     }
     
-    public override func update() {
+    open override func update() {
         super.update()
         
         titleLabel.text = rowDescriptor.title
 
-        if let checkMk = rowDescriptor.value as? Bool where checkMk == true {
-            accessoryType = .Checkmark
+        if let checkMk = rowDescriptor.value as? Bool, checkMk == true {
+            accessoryType = .checkmark
         } else {
-            accessoryType = .None
+            accessoryType = .none
         }
     }
     
-    public override class func formViewController(formViewController: FormViewController, didSelectRow selectedRow: FormBaseCell) {
+    open override class func formViewController(_ formViewController: FormViewController, didSelectRow selectedRow: FormBaseCell) {
         if let row = selectedRow as? FormCheckCell {
             row.check()
         }
@@ -38,8 +38,8 @@ public class FormCheckCell: FormTitleCell {
     
     /// MARK: Private interface
 
-    private func check() {
-        rowDescriptor.value = (rowDescriptor.value as? Bool).map { !$0 } ?? true
-        accessoryType = (rowDescriptor.value as! Bool) ? .Checkmark : .None
+    fileprivate func check() {
+        rowDescriptor.value = (rowDescriptor.value as? Bool).map { !$0 as NSObject } ?? true as NSObject
+        accessoryType = (rowDescriptor.value as! Bool) ? .checkmark : .none
     }
 }

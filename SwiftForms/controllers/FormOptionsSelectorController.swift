@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class FormOptionsSelectorController: UITableViewController, FormSelector {
+open class FormOptionsSelectorController: UITableViewController, FormSelector {
 
     /// MARK: FormSelector
     
-    public var formCell = FormBaseCell()
+    open var formCell = FormBaseCell()
     
     /// MARK: Init
 
@@ -24,63 +24,63 @@ public class FormOptionsSelectorController: UITableViewController, FormSelector 
         super.init(style: style)
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = formCell.rowDescriptor.title
     }
     
     /// MARK: UITableViewDataSource
 
-    public override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    open override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    public override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        
+    open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        
         return formCell.rowDescriptor.configuration.options?.count ?? 0
     }
     
-    public override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    open override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.1
     }
     
-    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let reuseIdentifier = NSStringFromClass(self.dynamicType)
+        let reuseIdentifier = NSStringFromClass(type(of: self))
         
-        var cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier)
+        var cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: reuseIdentifier)
+            cell = UITableViewCell(style: .default, reuseIdentifier: reuseIdentifier)
         }
         
         let options = formCell.rowDescriptor.configuration.options
-        let optionValue = options?[indexPath.row]
+        let optionValue = options?[(indexPath as NSIndexPath).row]
         
         cell!.textLabel!.text = formCell.rowDescriptor.titleForOptionValue(optionValue!)
         
         if let selectedOptions = formCell.rowDescriptor.value as? [NSObject] {
-            if (selectedOptions.indexOf(optionValue!) != nil) {
+            if (selectedOptions.index(of: optionValue!) != nil) {
                 
                 if let checkMarkAccessoryView = formCell.rowDescriptor.configuration.checkmarkAccessoryView {
                     cell!.accessoryView = checkMarkAccessoryView
                 }
                 else {
-                    cell!.accessoryType = .Checkmark
+                    cell!.accessoryType = .checkmark
                 }
             }
             else {
-                cell!.accessoryType = .None
+                cell!.accessoryType = .none
             }
         }
         else if let selectedOption = formCell.rowDescriptor.value {
             if optionValue == selectedOption {
-                cell!.accessoryType = .Checkmark
+                cell!.accessoryType = .checkmark
             }
             else {
-                cell!.accessoryType = .None
+                cell!.accessoryType = .none
             }
         }
         return cell!
@@ -88,9 +88,9 @@ public class FormOptionsSelectorController: UITableViewController, FormSelector 
     
     /// MARK: UITableViewDelegate
     
-    public override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        let cell = tableView.cellForRow(at: indexPath)
         
         var allowsMultipleSelection = false
         if let allowsMultipleSelectionValue = formCell.rowDescriptor.configuration.allowsMultipleSelection {
@@ -98,7 +98,7 @@ public class FormOptionsSelectorController: UITableViewController, FormSelector 
         }
         
         let options = formCell.rowDescriptor.configuration.options
-        let optionValue = options?[indexPath.row]
+        let optionValue = options?[(indexPath as NSIndexPath).row]
         
         if allowsMultipleSelection {
             
@@ -108,18 +108,18 @@ public class FormOptionsSelectorController: UITableViewController, FormSelector 
                         
             if let selectedOptions = formCell.rowDescriptor.value as? NSMutableArray {
                 
-                if selectedOptions.containsObject(optionValue!) {
-                    selectedOptions.removeObject(optionValue!)
-                    cell?.accessoryType = .None
+                if selectedOptions.contains(optionValue!) {
+                    selectedOptions.remove(optionValue!)
+                    cell?.accessoryType = .none
                 }
                 else {
-                    selectedOptions.addObject(optionValue!)
+                    selectedOptions.add(optionValue!)
                     
                     if let checkmarkAccessoryView = formCell.rowDescriptor.configuration.checkmarkAccessoryView {
                         cell?.accessoryView = checkmarkAccessoryView
                     }
                     else {
-                        cell?.accessoryType = .Checkmark
+                        cell?.accessoryType = .checkmark
                     }
                 }
                 
@@ -138,10 +138,9 @@ public class FormOptionsSelectorController: UITableViewController, FormSelector 
         formCell.update()
         
         if allowsMultipleSelection {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
-        else {
-            self.navigationController?.popViewControllerAnimated(true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            navigationController?.popViewController(animated: true)
         }
     }
 }

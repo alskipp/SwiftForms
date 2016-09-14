@@ -8,38 +8,38 @@
 
 import UIKit
 
-public class FormSegmentedControlCell: FormBaseCell {
+open class FormSegmentedControlCell: FormBaseCell {
     
     /// MARK: Cell views
     
-    public let titleLabel = UILabel()
-    public let segmentedControl = UISegmentedControl()
+    open let titleLabel = UILabel()
+    open let segmentedControl = UISegmentedControl()
     
     public required init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        selectionStyle = .None
+        selectionStyle = .none
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.setContentCompressionResistancePriority(500, forAxis: .Horizontal)
-        segmentedControl.setContentCompressionResistancePriority(500, forAxis: .Horizontal)
+        titleLabel.setContentCompressionResistancePriority(500, for: .horizontal)
+        segmentedControl.setContentCompressionResistancePriority(500, for: .horizontal)
         
         titleLabel.font = (self as? FormFontDefaults).map {
             $0.titleLabelFont
-            } ?? UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+            } ?? UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(segmentedControl)
         
-        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
-        contentView.addConstraint(NSLayoutConstraint(item: segmentedControl, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0))
+        contentView.addConstraint(NSLayoutConstraint(item: segmentedControl, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0))
         
-        segmentedControl.addTarget(self, action: #selector(valueChanged(_:)), forControlEvents: .ValueChanged)
+        segmentedControl.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
     }
 
-    public override func update() {
+    open override func update() {
         super.update()
 
         titleLabel.text = rowDescriptor.title
@@ -47,17 +47,17 @@ public class FormSegmentedControlCell: FormBaseCell {
 
         if let value = rowDescriptor.value,
            let options = rowDescriptor.configuration.options,
-           let idx = options.indexOf(value) {
+           let idx = options.index(of: value) {
             segmentedControl.selectedSegmentIndex = idx
         }
     }
     
-    public override func constraintsViews() -> [String : UIView] {
+    open override func constraintsViews() -> [String : UIView] {
         return ["titleLabel" : titleLabel, "segmentedControl" : segmentedControl]
     }
     
-    public override func defaultVisualConstraints() -> [String] {
-        if let text = titleLabel.text where !text.isEmpty {
+    open override func defaultVisualConstraints() -> [String] {
+        if let text = titleLabel.text, !text.isEmpty {
             return ["H:|-16-[titleLabel]-16-[segmentedControl]-16-|"]
         }
         else {
@@ -67,7 +67,7 @@ public class FormSegmentedControlCell: FormBaseCell {
     
     /// MARK: Actions
     
-    internal func valueChanged(sender: UISegmentedControl) {
+    internal func valueChanged(_ sender: UISegmentedControl) {
         let options = rowDescriptor.configuration.options
         let optionValue = options?[sender.selectedSegmentIndex]
         rowDescriptor.value = optionValue
@@ -75,11 +75,11 @@ public class FormSegmentedControlCell: FormBaseCell {
     
     /// MARK: Private
     
-    private func updateSegmentedControl() {
+    fileprivate func updateSegmentedControl() {
         segmentedControl.removeAllSegments()
         if let options = rowDescriptor.configuration.options {
-            for (idx, optionValue) in options.enumerate() {
-                segmentedControl.insertSegmentWithTitle(rowDescriptor.titleForOptionValue(optionValue), atIndex: idx, animated: false)
+            for (idx, optionValue) in options.enumerated() {
+                segmentedControl.insertSegment(withTitle: rowDescriptor.titleForOptionValue(optionValue), at: idx, animated: false)
             }
         }
     }

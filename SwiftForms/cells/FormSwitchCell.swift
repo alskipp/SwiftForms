@@ -8,37 +8,37 @@
 
 import UIKit
 
-public class FormSwitchCell: FormTitleCell {
+open class FormSwitchCell: FormTitleCell {
     
     /// MARK: Cell views
     
-    public let switchView = UISwitch()
+    open let switchView = UISwitch()
     
     public required init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        selectionStyle = .None
+        selectionStyle = .none
         
-        switchView.addTarget(self, action: #selector(valueChanged(_:)), forControlEvents: .ValueChanged)
+        switchView.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
         accessoryView = switchView
     }
     
-    public override func update() {
+    open override func update() {
         super.update()
         
         titleLabel.text = rowDescriptor.title
         
         if let onOff = rowDescriptor.value as? Bool {
-            switchView.on = onOff
+            switchView.isOn = onOff
         } else {
-            switchView.on = false
-            rowDescriptor.value = false
+            switchView.isOn = false
+            rowDescriptor.value = false as NSObject?
         }
     }
     
     internal func valueChanged(_: UISwitch) {
-        if switchView.on != rowDescriptor.value {
-            rowDescriptor.value = switchView.on
+        if switchView.isOn != (rowDescriptor.value as? Bool) {
+            rowDescriptor.value = switchView.isOn as NSObject?
         }
     }
     

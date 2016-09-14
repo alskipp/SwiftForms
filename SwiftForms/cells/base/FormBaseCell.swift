@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class FormBaseCell: UITableViewCell {
+open class FormBaseCell: UITableViewCell {
 
     /// MARK: Properties
     
@@ -18,44 +18,44 @@ public class FormBaseCell: UITableViewCell {
         }
     }
     
-    public weak var formViewController: FormViewController!
+    open weak var formViewController: FormViewController!
     
-    private var customConstraints: [NSLayoutConstraint] = []
+    fileprivate var customConstraints: [NSLayoutConstraint] = []
     
     /// MARK: Public interface
     
-    public func configure() {
+    open func configure() {
         /// override
     }
     
-    public func update() {
+    open func update() {
         /// override
     }
     
-    public func defaultVisualConstraints() -> [String] {
+    open func defaultVisualConstraints() -> [String] {
         /// override
         return []
     }
     
-    public func constraintsViews() -> [String : UIView] {
+    open func constraintsViews() -> [String : UIView] {
         /// override
         return [:]
     }
     
-    public func firstResponderElement() -> UIResponder? {
+    open func firstResponderElement() -> UIResponder? {
         /// override
         return nil
     }
     
-    public func inputAccesoryView() -> UIToolbar {
+    open func inputAccesoryView() -> UIToolbar {
         let actionBar = UIToolbar()
-        actionBar.translucent = true
+        actionBar.isTranslucent = true
         actionBar.sizeToFit()
-        actionBar.barStyle = .Default
+        actionBar.barStyle = .default
         
-        let doneButton = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .Done, target: self, action: #selector(handleDoneAction(_:)))
+        let doneButton = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(handleDoneAction(_:)))
         
-        let flexible = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         actionBar.items = [flexible, doneButton]
         
         return actionBar
@@ -65,31 +65,31 @@ public class FormBaseCell: UITableViewCell {
         firstResponderElement()?.resignFirstResponder()
     }
     
-    public class func formRowCellHeight() -> CGFloat {
+    open class func formRowCellHeight() -> CGFloat {
         return 44.0
     }
     
-    public class func formRowCanBecomeFirstResponder() -> Bool {
+    open class func formRowCanBecomeFirstResponder() -> Bool {
         return false
     }
     
-    public class func formViewController(formViewController: FormViewController, didSelectRow: FormBaseCell) {
+    open class func formViewController(_ formViewController: FormViewController, didSelectRow: FormBaseCell) {
     }
     
     /// MARK: Constraints
     
-    public override func updateConstraints() {
-        NSLayoutConstraint.deactivateConstraints(customConstraints)
+    open override func updateConstraints() {
+        NSLayoutConstraint.deactivate(customConstraints)
         customConstraints.removeAll()
 
         let visualConstraints = rowDescriptor.configuration.visualConstraintsClosure.map { $0(self) } ?? defaultVisualConstraints()
         
         let views = constraintsViews()
         customConstraints = visualConstraints.flatMap { visualConstraint in
-            NSLayoutConstraint.constraintsWithVisualFormat(visualConstraint, options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+            NSLayoutConstraint.constraints(withVisualFormat: visualConstraint, options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         }
         
-        NSLayoutConstraint.activateConstraints(customConstraints)
+        NSLayoutConstraint.activate(customConstraints)
         super.updateConstraints()
     }
     

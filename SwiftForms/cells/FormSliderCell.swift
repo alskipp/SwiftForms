@@ -6,16 +6,16 @@
 //  Copyright (c) 2015 Miguel Angel Ortuno Ortuno. All rights reserved.
 //
 
-public class FormSliderCell: FormTitleCell {
+open class FormSliderCell: FormTitleCell {
     
     /// MARK: Cell views
     
-    public let sliderView = UISlider()
+    open let sliderView = UISlider()
     
     public required init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        selectionStyle = .None
+        selectionStyle = .none
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         sliderView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,20 +23,20 @@ public class FormSliderCell: FormTitleCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(sliderView)
         
-        titleLabel.setContentHuggingPriority(500, forAxis: .Horizontal)
+        titleLabel.setContentHuggingPriority(500, for: .horizontal)
         
-        contentView.addConstraint(NSLayoutConstraint(item: sliderView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
+        contentView.addConstraint(NSLayoutConstraint(item: sliderView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0))
         
-        sliderView.addTarget(self, action: #selector(valueChanged(_:)), forControlEvents: .ValueChanged)
+        sliderView.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
     }
     
-    public override func update() {
+    open override func update() {
         super.update()
         let config = rowDescriptor.configuration
 
         if let mx = config.maximumValue { sliderView.maximumValue = Float(mx) }
         if let mn = config.minimumValue { sliderView.minimumValue = Float(mn) }
-        if let c = config.continuous { sliderView.continuous = c }
+        if let c = config.continuous { sliderView.isContinuous = c }
         
         titleLabel.text = rowDescriptor.title
         
@@ -44,15 +44,15 @@ public class FormSliderCell: FormTitleCell {
             sliderView.value = value
         } else {
             sliderView.value = sliderView.minimumValue
-            rowDescriptor.value = sliderView.minimumValue
+            rowDescriptor.value = sliderView.minimumValue as NSObject?
         }
     }
     
-    public override func constraintsViews() -> [String : UIView] {
+    open override func constraintsViews() -> [String : UIView] {
         return ["titleLabel" : titleLabel, "sliderView" : sliderView]
     }
     
-    public override func defaultVisualConstraints() -> [String] {
+    open override func defaultVisualConstraints() -> [String] {
         return [
             "V:|[titleLabel]|",
             "H:|-16-[titleLabel]-16-[sliderView]-16-|"
@@ -60,7 +60,7 @@ public class FormSliderCell: FormTitleCell {
     }
         
     internal func valueChanged(_: UISlider) {
-        rowDescriptor.value = sliderView.value
+        rowDescriptor.value = sliderView.value as NSObject?
     }
     
     

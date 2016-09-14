@@ -8,24 +8,24 @@
 
 import Foundation
 
-public class FormSectionDescriptor: NSObject {
+open class FormSectionDescriptor: NSObject {
     
-    public var headerTitle: String
-    public var footerTitle: String
-    public var rows: [FormRowDescriptor] = []
+    open var headerTitle: String
+    open var footerTitle: String
+    open var rows: [FormRowDescriptor] = []
     
     public init(headerTitle: String = "", footerTitle: String = "") {
         self.headerTitle = headerTitle
         self.footerTitle = footerTitle
     }
     
-    public func addRow(row: FormRowDescriptor) {
+    open func addRow(_ row: FormRowDescriptor) {
         rows.append(row)
     }
     
-    public func removeRow(row: FormRowDescriptor) {
-        if let index = rows.indexOf(row) {
-            rows.removeAtIndex(index)
+    open func removeRow(_ row: FormRowDescriptor) {
+        if let index = rows.index(of: row) {
+            rows.remove(at: index)
         }
     }
 }
